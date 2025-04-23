@@ -1,0 +1,9 @@
+@import "tailwindcss";
+@import "tailwindcss/preflight";
+@import "tailwindcss/utilities";
+
+
+/* index.css */
+.page-content {
+  padding-top: 80px; /* Sesuaikan dengan tinggi navbar */
+}
