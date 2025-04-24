@@ -1,4 +1,4 @@
-import PaketWisata from "../component/PaketWisata";
+import React from "react";
 import Hero from "../component/Hero";
 
 const Home = () => {

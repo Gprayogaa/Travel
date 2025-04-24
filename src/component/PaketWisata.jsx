@@ -158,30 +158,57 @@ const PaketWisata = () => {
           </Button>
         </div>
 
-        {/* Kategori with animation */}
+        {/* Kategori with enhanced animations */}
         <div className="d-flex flex-wrap justify-content-center gap-2 mb-4">
           {kategoriUnik.map((kategori, idx) => (
             <motion.div
               key={idx}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: idx * 0.1 }}
+              transition={{
+                duration: 0.5,
+                delay: idx * 0.1,
+                type: "spring",
+                stiffness: 100,
+              }}
             >
-              <Button
-                variant={kategoriAktif === kategori ? "primary" : ""}
+              <motion.button
+                whileHover={{
+                  scale: 1.05,
+                  transition: { duration: 0.2 },
+                }}
+                whileTap={{ scale: 0.95 }}
+                className={`btn ${
+                  kategoriAktif === kategori
+                    ? "btn-primary"
+                    : "btn-outline-primary"
+                }`}
                 onClick={() => {
                   setKategoriAktif(kategori);
                   setShowAll(false);
                 }}
-                className="mb-2" // Added margin bottom for wrapped items
                 style={{
                   fontFamily: "'Poppins', sans-serif",
                   fontWeight: 500,
-                  fontSize: "clamp(0.875rem, 1.5vw, 1rem)", // Responsive font size
+                  fontSize: "clamp(0.875rem, 1.5vw, 1rem)",
+                  position: "relative",
+                  overflow: "hidden",
                 }}
               >
+                <motion.span
+                  initial={false}
+                  animate={{
+                    y: kategoriAktif === kategori ? 0 : 20,
+                    opacity: kategoriAktif === kategori ? 1 : 0,
+                  }}
+                  className="position-absolute inset-0 bg-primary"
+                  style={{
+                    zIndex: -1,
+                    borderRadius: "inherit",
+                  }}
+                />
                 {kategori}
-              </Button>
+              </motion.button>
             </motion.div>
           ))}
         </div>

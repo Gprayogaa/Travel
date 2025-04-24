@@ -1,19 +1,49 @@
-import React from "react";
+import React, { useState } from "react";
 import { Container, Row, Col, Form, Button, Card } from "react-bootstrap";
 import { FaEnvelope, FaUser, FaCommentDots } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const Contact = () => {
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const response = await fetch("https://formspree.io/f/mdkgobze", {
+        method: "POST",
+        body: new FormData(e.target),
+        headers: {
+          Accept: "application/json",
+        },
+      });
+
+      if (response.ok) {
+        alert("Pesan berhasil dikirim!");
+        e.target.reset();
+      } else {
+        throw new Error("Gagal mengirim pesan");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Gagal mengirim pesan. Silakan coba lagi.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <div className="bg-light py-5" >
-    <Container>
-      
-      <Button
-        variant="link"
-        className="mb-4 text-decoration-none"
-        onClick={() => navigate(-1)} // Navigasi kembali ke halaman sebelumnya
-      >
-        ← Kembali
-      </Button>
+    <div className="bg-light py-5">
+      <Container>
+        <Button
+          variant="link"
+          className="mb-4 text-decoration-none"
+          onClick={() => navigate(-1)}
+        >
+          ← Kembali
+        </Button>
         <Row className="justify-content-center">
           <Col md={10} lg={8}>
             <Card className="shadow-lg border-0 p-4">
@@ -22,15 +52,16 @@ const Contact = () => {
                 <p className="text-center text-muted mb-5">
                   Have questions or need help? Feel free to reach out to us!
                 </p>
-                <Form>
+                <Form onSubmit={handleSubmit}>
                   <Form.Group className="mb-3" controlId="formName">
                     <Form.Label>
                       <FaUser className="me-2 text-primary" />
-                      Name
+                      Nama
                     </Form.Label>
                     <Form.Control
                       type="text"
-                      placeholder="Enter your name"
+                      placeholder="Masukkan nama Anda"
+                      name="name"
                       required
                     />
                   </Form.Group>
@@ -42,7 +73,8 @@ const Contact = () => {
                     </Form.Label>
                     <Form.Control
                       type="email"
-                      placeholder="Enter your email"
+                      placeholder="Masukkan email Anda"
+                      name="email"
                       required
                     />
                   </Form.Group>
@@ -50,12 +82,13 @@ const Contact = () => {
                   <Form.Group className="mb-4" controlId="formMessage">
                     <Form.Label>
                       <FaCommentDots className="me-2 text-primary" />
-                      Message
+                      Pesan
                     </Form.Label>
                     <Form.Control
                       as="textarea"
                       rows={5}
-                      placeholder="Write your message here"
+                      placeholder="Tulis pesan Anda di sini"
+                      name="message"
                       required
                     />
                   </Form.Group>
@@ -65,8 +98,9 @@ const Contact = () => {
                     type="submit"
                     className="w-100 fw-bold"
                     style={{ transition: "0.3s" }}
+                    disabled={loading}
                   >
-                    Send Message
+                    {loading ? "Mengirim..." : "Kirim Pesan"}
                   </Button>
                 </Form>
               </Card.Body>
