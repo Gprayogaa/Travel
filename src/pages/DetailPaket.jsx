@@ -8,7 +8,6 @@ import {
   Button,
   Card,
   ListGroup,
-  Toast,
 } from "react-bootstrap";
 
 const DetailPaket = () => {
@@ -106,22 +105,7 @@ const DetailPaket = () => {
                   Pesan Sekarang
                 </Button>
 
-                <Toast
-                  show={showToast}
-                  onClose={() => setShowToast(false)}
-                  style={{
-                    position: "absolute",
-                    top: "-80px",
-                    right: "0",
-                    zIndex: 1,
-                  }}
-                  className="bg-success text-white"
-                >
-                  <Toast.Header className="bg-success text-white">
-                    <strong className="me-auto">✅ Sukses</strong>
-                  </Toast.Header>
-                  <Toast.Body>Pesanan Anda sedang diproses</Toast.Body>
-                </Toast>
+              
 
                 <Button
                   onClick={() => {
